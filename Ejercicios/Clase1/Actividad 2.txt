@@ -1,0 +1,9 @@
+1-- 
+(A) Un sitio de Información Publica con tramites para vehículos necesita de una topología de internet para poder realizar sus operaciones de manera satisfactoria ya que la palabra clave "publica" necesitamos que el sistema sea de fácil de acceso para cualquiera que quiera verificar información
+(B) 
+
+2--
+El B debería requerir una mayor inversión ya que debido al manejo de datos que realiza necesita una seguridad mucho mas robusta para que la información este asegurada por lo tanto lleva mas pasos y recursos para asegurarnos de que el sistema cumpla correctamente
+
+3--
+Si es posible si utilizamos distintos servicios para firewall y virtualización para cada sistema para aislarlos entre si 

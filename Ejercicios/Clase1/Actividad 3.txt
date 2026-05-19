@@ -1,0 +1,11 @@
+A) La url posee los siguientes componentes: protocolo; https, subdominio; api, dominio; GitHub, tld; .com, puerto; 443, ruta; /repos/bryancs/isw521/issues, parámetros de consulta; state=open&labels=semana1, ancla; comentarios
+
+B)
+1--
+https://utn.ac.cr/cursos/isw-521/2026-2/san-carlos
+
+2--
+https://utn.ac.cr/estudiantes/2022-0001
+
+3--
+https://utn.ac.cr/cursos/isw-521/materiales/semana-3
