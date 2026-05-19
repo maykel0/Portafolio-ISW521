@@ -1,0 +1,10 @@
+1--
+1 subdominio: campus, SLD: utn
+2 subdominio: www, SLD: netflix
+3 subdominio: api, SLD: github
+4 subdominio: app, SLD: maravilla
+
+2--
+.cr esta administrado por la academia nacional de ciencias de Costa Rica y .com es administrado por VeriSign bajo supervisión de ICANN, no es necesario acudir a ICANN para registrar un dominio
+
+3--
