@@ -5,3 +5,4 @@ Es parcialmente correcto ya que común mente utilizamos la frase dicha "Pongan e
 Se hace uso de ambos ya que al utilizar un sistema que solo la población de la UTN tiene acceso al sistema web
 
 3--
+El mas importante es IETF ya que este define HTTP, TLS y DNS esto establece los cimientos del sistema por lo cual en un sistema tiene el mayor peso operativo
