@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galería de Recursos Multimedia — Curso en Línea</title>
+</head>
+<body>
+
+  <h1>Galería de Recursos Multimedia</h1>
+
+  <!-- ===================== -->
+  <!-- 1. IMAGEN CON PICTURE -->
+  <!-- ===================== -->
+  <section>
+    <h2>Imagen principal del curso</h2>
+
+    <picture>
+  <source
+    srcset="imagenes/foto-principal.webp"
+    type="image/webp">
+
+  <source
+    srcset="imagenes/foto-principal.jpg"
+    type="image/jpeg">
+
+  <img
+    src="imagenes/foto-principal.jpg"
+    alt="Descripción de la imagen"
+    width="800"
+    height="450">
+    </picture>
+
+
+  <!-- ===================== -->
+  <!-- 2. VIDEO DE LA CLASE  -->
+  <!-- ===================== -->
+  <section>
+    <h2>Video de la clase</h2>
+
+    <video
+      controls
+      poster="portada-video.jpg"
+      width="800"
+      title="Video de la clase — Tema 5: Multimedia en HTML">
+
+      <!-- Formato 1: MP4 (soporte universal) -->
+      <source
+        src="clase-tema5.mp4"
+        type="video/mp4">
+
+      <!-- Formato 2: WebM (mejor compresión en Chrome/Firefox) -->
+      <source
+        src="clase-tema5.webm"
+        type="video/webm">
+
+      <!-- Mensaje para browsers que no soportan <video> -->
+      Tu navegador no soporta reproducción de video.
+      <a href="clase-tema5.mp4">Descargá el video aquí</a>.
+    </video>
+  </section>
+
+
+  <!-- ======================== -->
+  <!-- 3. AUDIO PODCAST         -->
+  <!-- ======================== -->
+  <section>
+    <h2>Podcast del curso</h2>
+
+    <audio
+      controls
+      title="Podcast — Resumen del Tema 5: Tablas y Multimedia">
+      <!--
+        loop NO se incluye → loop desactivado es el comportamiento
+        por defecto; agregar el atributo lo activaría
+      -->
+      <source
+        src="podcast-tema5.mp3"
+        type="audio/mpeg">
+
+      Tu navegador no soporta reproducción de audio.
+      <a href="podcast-tema5.mp3">Descargá el podcast aquí</a>.
+    </audio>
+
+    <p>Duración aproximada: 15 minutos</p>
+  </section>
+
+
+  <!-- ======================== -->
+  <!-- 4. IFRAME GOOGLE MAPS    -->
+  <!-- ======================== -->
+  <section>
+    <h2>Ubicación — UTN San Carlos</h2>
+
+    <iframe
+  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!..."
+  width="600"
+  height="450"
+  style="border:0;"
+  allowfullscreen=""
+  loading="lazy">
+</iframe>
+  </section>
+
+
+</body>
+</html>
