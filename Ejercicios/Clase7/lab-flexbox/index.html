@@ -4,96 +4,234 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AcueductosIoT</title>
-
   <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
   <!-- NAVBAR -->
   <header>
     <nav class="top-nav">
       <div class="logo">💧 AcueductosIoT</div>
-
       <ul class="nav-menu">
-        <li><a href="#">Inicio</a></li>
+        <li><a href="#" class="active">Inicio</a></li>
         <li><a href="#">Sensores</a></li>
         <li><a href="#">Alertas</a></li>
         <li><a href="#">Reportes</a></li>
       </ul>
-
-      <button class="logout-button">Cerrar Sesión</button>
+      <button class="logout-button">○ Cerrar Sesión</button>
     </nav>
   </header>
 
-  <main>
+  <main class="dashboard-layout">
 
-    <!-- SENSORES -->
-    <section class="sensor-grid">
-      <article class="sensor-card">
-        <h3>Nivel de Tanque Principal</h3>
-        <p>85%</p>
-      </article>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <p class="sidebar-label">MENÚ</p>
+      <ul class="sidebar-menu">
+        <li class="active"><span class="menu-icon">📊</span> Resumen</li>
+        <li><span class="menu-icon">💧</span> Tanques</li>
+        <li><span class="menu-icon">⚡</span> Presiones</li>
+        <li><span class="menu-icon">🧪</span> Calidad</li>
+        <li><span class="menu-icon">🗺️</span> Mapa Red</li>
+        <li><span class="menu-icon">⚙️</span> Configuración</li>
+      </ul>
+      <div class="sidebar-version">v2.4.1 · Online</div>
+    </aside>
 
-      <article class="sensor-card">
-        <h3>Presión de Red</h3>
-        <p>45 PSI</p>
-      </article>
+    <!-- CONTENIDO PRINCIPAL -->
+    <section class="dashboard-content">
 
-      <article class="sensor-card">
-        <h3>Calidad del Agua</h3>
-        <p>0.8 mg/L Cloro</p>
-      </article>
+      <!-- ENCABEZADO -->
+      <div class="content-header">
+        <h2>Monitoreo en <span class="highlight-time">Tiempo Real</span></h2>
+        <span class="live-badge">●&nbsp;En vivo</span>
+      </div>
 
-      <article class="sensor-card">
-        <h3>Caudal de Entrada</h3>
-        <p>120 L/min</p>
-      </article>
+      <!-- SENSOR GRID -->
+      <section class="sensor-grid" aria-label="Sensores activos">
 
-      <article class="sensor-card">
-        <h3>Temperatura</h3>
-        <p>22°C</p>
-      </article>
+        <article class="sensor-card">
+          <div class="sensor-top">
+            <span class="sensor-icon">💧</span>
+          </div>
+          <p class="sensor-label">NIVEL TANQUE PRINCIPAL</p>
+          <p class="sensor-value">73%</p>
+          <p class="sensor-sub">↔ Sector A · 2 min</p>
+          <div class="sensor-bar">
+            <div class="bar-fill green" style="width: 73%"></div>
+          </div>
+        </article>
 
-      <article class="sensor-card">
-        <h3>Válvula de Emergencia</h3>
-        <p>Abierta</p>
-      </article>
-    </section>
+        <article class="sensor-card warning">
+          <div class="sensor-top">
+            <span class="sensor-icon">⚡</span>
+          </div>
+          <p class="sensor-label">PRESIÓN RED CALLE 2</p>
+          <p class="sensor-value orange">28 PSI</p>
+          <p class="sensor-sub">↓ Mín: 30 PSI · 1 min</p>
+          <div class="sensor-bar">
+            <div class="bar-fill orange" style="width: 55%"></div>
+          </div>
+        </article>
 
-    <!-- DASHBOARD -->
-    <section class="dashboard-layout">
+        <article class="sensor-card">
+          <div class="sensor-top">
+            <span class="sensor-icon">🔬</span>
+          </div>
+          <p class="sensor-label">CLORO RESIDUAL</p>
+          <p class="sensor-value">0.4 mg/L</p>
+          <p class="sensor-sub">✔ Rango: 0.3–0.5 · 3 min</p>
+          <div class="sensor-bar">
+            <div class="bar-fill green" style="width: 45%"></div>
+          </div>
+        </article>
 
-      <aside class="sidebar">
-        <ul class="sidebar-menu">
-          <li>📊 Resumen</li>
-          <li>💧 Tanques</li>
-          <li>⚡ Presiones</li>
-          <li>🧪 Calidad</li>
-          <li>⚙️ Configuración</li>
-        </ul>
-      </aside>
+        <article class="sensor-card">
+          <div class="sensor-top">
+            <span class="sensor-icon">🌊</span>
+          </div>
+          <p class="sensor-label">CAUDAL NACIENTE SUR</p>
+          <p class="sensor-value">142 L/min</p>
+          <p class="sensor-sub">→ Normal · 4 min</p>
+          <div class="sensor-bar">
+            <div class="bar-fill blue" style="width: 80%"></div>
+          </div>
+        </article>
 
-      <section class="dashboard-content">
-        <h2>Gráficos en Tiempo Real</h2>
-        <p>Aquí irían tus gráficos IoT</p>
+        <article class="sensor-card">
+          <div class="sensor-top">
+            <span class="sensor-icon">🌡️</span>
+          </div>
+          <p class="sensor-label">TEMPERATURA AGUA</p>
+          <p class="sensor-value">18.2°C</p>
+          <p class="sensor-sub">↑ Normal · 5 min</p>
+          <div class="sensor-bar">
+            <div class="bar-fill purple" style="width: 38%"></div>
+          </div>
+        </article>
+
+        <article class="sensor-card">
+          <div class="sensor-top">
+            <span class="sensor-icon">🔧</span>
+          </div>
+          <p class="sensor-label">VÁLVULA EMERGENCIA</p>
+          <p class="sensor-value red">CERRADA</p>
+          <p class="sensor-sub">✔ Estado normal · 1 min</p>
+          <div class="sensor-bar">
+            <div class="bar-fill green" style="width: 100%"></div>
+          </div>
+        </article>
+
       </section>
 
-      <aside class="alerts-panel">
-        <h3>🔔 Alertas</h3>
-
-        <div class="alert-item">⚠️ Presión baja - Sector B</div>
-        <div class="alert-item">✅ Cloro normal</div>
-      </aside>
+      <!-- GRÁFICO -->
+      <div class="chart-section" aria-label="Gráfico de presión de red últimas 6 horas">
+        <div class="chart-header">
+          <span class="chart-title">Presión de Red — Últimas 6 horas</span>
+          <span class="chart-value">28 PSI</span>
+        </div>
+        <div class="chart-area">
+          <svg viewBox="0 0 700 100" preserveAspectRatio="none" aria-hidden="true">
+            <!-- Línea mínima punteada -->
+            <line x1="0" y1="72" x2="700" y2="72" stroke="#4ade80" stroke-width="0.7" stroke-dasharray="4 4" opacity="0.5"/>
+            <text x="6" y="70" fill="#4ade80" font-size="8" opacity="0.7">min_30 PSI</text>
+            <!-- Área bajo la curva -->
+            <path d="M0,55 C40,50 80,48 120,46 C160,44 200,40 240,38 C280,36 320,35 360,36 C400,37 440,42 480,48 C520,54 560,60 600,64 C640,68 670,70 700,72 L700,100 L0,100 Z"
+                  fill="url(#areaGrad)" opacity="0.3"/>
+            <!-- Línea principal -->
+            <path d="M0,55 C40,50 80,48 120,46 C160,44 200,40 240,38 C280,36 320,35 360,36 C400,37 440,42 480,48 C520,54 560,60 600,64 C640,68 670,70 700,72"
+                  fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round"/>
+            <!-- Punto activo -->
+            <circle cx="700" cy="72" r="4" fill="#facc15"/>
+            <defs>
+              <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#4ade80"/>
+                <stop offset="100%" stop-color="#0b1220" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="chart-xaxis">
+          <span>00:00</span><span>01:00</span><span>02:00</span>
+          <span>03:00</span><span>04:00</span><span>05:00</span>
+        </div>
+      </div>
 
     </section>
+
+    <!-- PANEL DE ALERTAS -->
+    <aside class="alerts-panel">
+      <div class="alerts-header">
+        <h3>🔔 ALERTAS ACTIVAS</h3>
+        <span class="alerts-badge">2</span>
+      </div>
+
+      <div class="alert-item alert-danger">
+        <div class="alert-icon">⚠</div>
+        <div class="alert-body">
+          <p class="alert-title">Presión baja — Calle 2</p>
+          <p class="alert-detail">28 PSI · Umbral: 30 PSI mín.</p>
+          <p class="alert-time">Hace 3 minutos</p>
+        </div>
+      </div>
+
+      <div class="alert-item alert-warning">
+        <div class="alert-icon">⚡</div>
+        <div class="alert-body">
+          <p class="alert-title">Fluctuación detectada</p>
+          <p class="alert-detail">Sector B · Variación ±8 PSI</p>
+          <p class="alert-time">Hace 12 minutos</p>
+        </div>
+      </div>
+
+      <div class="alert-item alert-success">
+        <div class="alert-icon">✔</div>
+        <div class="alert-body">
+          <p class="alert-title">Cloro en rango normal</p>
+          <p class="alert-detail">0.4 mg/L · OMS: 0.3–0.5</p>
+          <p class="alert-time">Hace 15 minutos</p>
+        </div>
+      </div>
+
+      <div class="alert-item alert-success">
+        <div class="alert-icon">✔</div>
+        <div class="alert-body">
+          <p class="alert-title">Tanque Principal OK</p>
+          <p class="alert-detail">73% · Sin riesgo de desabasto</p>
+          <p class="alert-time">Hace 18 minutos</p>
+        </div>
+      </div>
+
+      <div class="alerts-footer">
+        <p class="next-update-label">Próxima actualización</p>
+        <p class="next-update-time" id="countdown">00:47</p>
+      </div>
+    </aside>
 
   </main>
 
   <!-- FOOTER -->
   <footer class="footer">
-    <p>AcueductosIoT © 2026</p>
+    <span>AcueductosIoT Dashboard v2.4.1</span>
+    <span class="footer-center">
+      <span class="status-dot"></span> Todos los sistemas operativos
+      &nbsp;|&nbsp; 📡 12 sensores conectados
+    </span>
+    <span>Última sync: 06/06/2026 · 05:13</span>
   </footer>
+
+  <script>
+    // Countdown timer
+    let seconds = 47;
+    const el = document.getElementById('countdown');
+    setInterval(() => {
+      seconds--;
+      if (seconds < 0) seconds = 59;
+      const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+      const s = String(seconds % 60).padStart(2, '0');
+      el.textContent = m + ':' + s;
+    }, 1000);
+  </script>
 
 </body>
 </html>
