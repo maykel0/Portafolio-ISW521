@@ -1,0 +1,276 @@
+```css
+:root{
+    --car-color:#A8A8B0;
+
+    --red:#CC2233;
+    --white:#F0F0F0;
+    --black:#111111;
+    --blue:#1A4A8A;
+    --silver:#A8A8B0;
+    --green:#1A6A2A;
+    --orange:#CC5500;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#07081f;
+    color:white;
+    font-family:Arial, sans-serif;
+}
+
+/* ocultar radios */
+
+input[type="radio"]{
+    display:none;
+}
+
+/* radio hack color */
+
+#rojo:checked ~ .showroom-grid{
+    --car-color:var(--red);
+}
+
+#blanco:checked ~ .showroom-grid{
+    --car-color:var(--white);
+}
+
+#negro:checked ~ .showroom-grid{
+    --car-color:var(--black);
+}
+
+#azul:checked ~ .showroom-grid{
+    --car-color:var(--blue);
+}
+
+#plata:checked ~ .showroom-grid{
+    --car-color:var(--silver);
+}
+
+#verde:checked ~ .showroom-grid{
+    --car-color:var(--green);
+}
+
+#naranja:checked ~ .showroom-grid{
+    --car-color:var(--orange);
+}
+
+/* GRID */
+
+.showroom-grid{
+
+    display:grid;
+
+    min-height:100vh;
+
+    gap:12px;
+
+    padding:12px;
+
+    grid-template-columns:
+    220px
+    minmax(500px,1fr)
+    260px;
+
+    grid-template-rows:
+    70px
+    1fr
+    120px
+    40px;
+
+    grid-template-areas:
+    "header header header"
+    "sidebar vehicle quote"
+    "palette palette palette"
+    "footer footer footer";
+}
+
+header{
+    grid-area:header;
+    background:#171a3b;
+    padding:20px;
+}
+
+.sidebar{
+    grid-area:sidebar;
+    background:#101338;
+    padding:20px;
+    border-radius:10px;
+}
+
+.vehicle-area{
+    grid-area:vehicle;
+    background:#101338;
+    border-radius:10px;
+    padding:20px;
+}
+
+.quote-panel{
+    grid-area:quote;
+    background:#101338;
+    border-radius:10px;
+    padding:20px;
+}
+
+.palette{
+    grid-area:palette;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+
+    background:#101338;
+
+    padding:20px;
+
+    border-radius:10px;
+}
+
+footer{
+    grid-area:footer;
+    text-align:center;
+}
+
+/* botones */
+
+.btn{
+    display:block;
+    margin:10px 0;
+    padding:12px;
+    background:#232855;
+    cursor:pointer;
+    border-radius:8px;
+}
+
+.btn:hover{
+    background:#ff4455;
+}
+
+/* GRID OVERLAY */
+
+.vehicle-display{
+    display:grid;
+    place-items:center;
+    height:450px;
+}
+
+.vehicle{
+    grid-area:1 / 1;
+    opacity:0;
+    transition:opacity .3s ease;
+}
+
+/* COROLLA */
+
+#corolla:checked ~ .showroom-grid #front:checked{
+}
+
+/* COROLLA */
+
+#front:checked ~ .showroom-grid .corolla.front-view{
+    opacity:1;
+}
+
+#side:checked ~ .showroom-grid .corolla.side-view{
+    opacity:1;
+}
+
+#rear:checked ~ .showroom-grid .corolla.rear-view{
+    opacity:1;
+}
+
+/* HILUX */
+
+#hilux:checked ~ .showroom-grid .corolla{
+    opacity:0;
+}
+
+#hilux:checked ~ .showroom-grid .hilux.front-view{
+    opacity:1;
+}
+
+/* auto */
+
+.vehicle-body{
+    width:450px;
+    height:180px;
+
+    background:var(--car-color);
+
+    border-radius:100px 100px 20px 20px;
+
+    transition:all .3s ease;
+}
+
+.pickup{
+    border-radius:20px;
+}
+
+/* cotización */
+
+.corolla-quote,
+.hilux-quote{
+    display:none;
+}
+
+#corolla:checked ~ .showroom-grid .corolla-quote{
+    display:block;
+}
+
+#hilux:checked ~ .showroom-grid .hilux-quote{
+    display:block;
+}
+
+/* colores */
+
+.paint-swatch{
+    width:60px;
+    height:60px;
+    border-radius:8px;
+    cursor:pointer;
+
+    opacity:0;
+
+    animation:
+    floatIn .4s ease forwards;
+}
+
+.rojo{background:#CC2233;}
+.blanco{background:#F0F0F0;}
+.negro{background:#111111;}
+.azul{background:#1A4A8A;}
+.plata{background:#A8A8B0;}
+.verde{background:#1A6A2A;}
+.naranja{background:#CC5500;}
+
+.paint-swatch:nth-child(1){animation-delay:.0s;}
+.paint-swatch:nth-child(2){animation-delay:.1s;}
+.paint-swatch:nth-child(3){animation-delay:.2s;}
+.paint-swatch:nth-child(4){animation-delay:.3s;}
+.paint-swatch:nth-child(5){animation-delay:.4s;}
+.paint-swatch:nth-child(6){animation-delay:.5s;}
+.paint-swatch:nth-child(7){animation-delay:.6s;}
+
+@keyframes floatIn{
+
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+```

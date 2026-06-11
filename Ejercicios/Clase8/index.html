@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taller Auto Style — ISW-521</title>
+<style>
+:root {
+  --car-color: #A8A8B0;
+  --red: #CC2233;
+  --white: #F0F0F0;
+  --black: #111111;
+  --blue: #1A4A8A;
+  --silver: #A8A8B0;
+  --green: #1A6A2A;
+  --orange: #CC5500;
+  --gray: #6B6B6B;
+  --pearl: #EDE8D8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #07081f;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+}
+
+input[type="radio"] { display: none; }
+
+/* ── COLOR RADIO HACK ── */
+#rojo:checked   ~ .showroom-grid { --car-color: var(--red); }
+#blanco:checked ~ .showroom-grid { --car-color: var(--white); }
+#negro:checked  ~ .showroom-grid { --car-color: var(--black); }
+#azul:checked   ~ .showroom-grid { --car-color: var(--blue); }
+#plata:checked  ~ .showroom-grid { --car-color: var(--silver); }
+#verde:checked  ~ .showroom-grid { --car-color: var(--green); }
+#naranja:checked ~ .showroom-grid { --car-color: var(--orange); }
+#gris:checked   ~ .showroom-grid { --car-color: var(--gray); }
+#perla:checked  ~ .showroom-grid { --car-color: var(--pearl); }
+
+/* ── GRID LAYOUT ── */
+.showroom-grid {
+  display: grid;
+  min-height: 100vh;
+  gap: 10px;
+  padding: 10px;
+  grid-template-columns: 210px minmax(0,1fr) 250px;
+  grid-template-rows: 58px 1fr 110px 34px;
+  grid-template-areas:
+    "header  header  header"
+    "sidebar vehicle quote"
+    "palette palette palette"
+    "footer  footer  footer";
+}
+
+/* ── HEADER ── */
+header {
+  grid-area: header;
+  background: #171a3b;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  border-radius: 6px;
+}
+header h1 {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #fff;
+}
+header h1 span { color: #cc2233; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  grid-area: sidebar;
+  background: #101338;
+  border-radius: 10px;
+  padding: 16px;
+}
+.sidebar h3 {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #8892b0;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.sidebar section + section { margin-top: 18px; }
+
+.btn {
+  display: block;
+  padding: 10px 14px;
+  background: #1a1f4a;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 8px;
+  transition: background .2s;
+  border: 2px solid transparent;
+}
+.btn strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+}
+.btn small {
+  font-size: 10px;
+  color: #8892b0;
+}
+.btn:hover { background: #232855; }
+
+/* Active model button */
+#corolla:checked ~ .showroom-grid label[for="corolla"],
+#hilux:checked   ~ .showroom-grid label[for="hilux"] {
+  background: #1a1f4a;
+  border-color: #cc2233;
+  color: #fff;
+}
+#corolla:checked ~ .showroom-grid label[for="corolla"] strong,
+#hilux:checked   ~ .showroom-grid label[for="hilux"] strong { color: #cc2233; }
+
+/* Active angle button */
+#front:checked ~ .showroom-grid label[for="front"],
+#side:checked  ~ .showroom-grid label[for="side"],
+#rear:checked  ~ .showroom-grid label[for="rear"] {
+  background: #cc2233;
+}
+#front:checked ~ .showroom-grid label[for="front"] strong,
+#side:checked  ~ .showroom-grid label[for="side"] strong,
+#rear:checked  ~ .showroom-grid label[for="rear"] strong { color: #fff; }
+
+.angle-btn {
+  display: block;
+  padding: 10px 14px;
+  background: #1a1f4a;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 8px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ccd6f6;
+  transition: background .2s;
+}
+.angle-btn:hover { background: #232855; }
+
+/* Active angle */
+#front:checked ~ .showroom-grid label[for="front"].angle-btn,
+#side:checked  ~ .showroom-grid label[for="side"].angle-btn,
+#rear:checked  ~ .showroom-grid label[for="rear"].angle-btn {
+  background: #cc2233;
+  color: #fff;
+}
+
+/* ── VEHICLE AREA ── */
+.vehicle-area {
+  grid-area: vehicle;
+  background: #101338;
+  border-radius: 10px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+}
+.vehicle-area h2 {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #8892b0;
+  margin-bottom: 4px;
+  text-align: center;
+}
+.vehicle-hint {
+  font-size: 10px;
+  color: #4a5580;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.vehicle-display {
+  display: grid;
+  place-items: center;
+  flex: 1;
+  position: relative;
+}
+
+/* All vehicles hidden by default */
+.vehicle {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transition: opacity .35s ease;
+  pointer-events: none;
+}
+
+/* Show correct view */
+#front:checked ~ .showroom-grid .corolla.front-view { opacity: 1; }
+#side:checked  ~ .showroom-grid .corolla.side-view  { opacity: 1; }
+#rear:checked  ~ .showroom-grid .corolla.rear-view  { opacity: 1; }
+
+#hilux:checked ~ .showroom-grid .corolla { opacity: 0 !important; }
+#hilux:checked ~ .showroom-grid .hilux.front-view { opacity: 1; }
+#hilux:checked ~ .showroom-grid .hilux.side-view  { opacity: 0; }
+#hilux:checked ~ .showroom-grid .hilux.rear-view  { opacity: 0; }
+
+#hilux:checked ~ .showroom-grid #front:checked + .showroom-grid .hilux.front-view { opacity:1; }
+
+/* Angle + hilux combos */
+#hilux:checked ~ .showroom-grid .hilux.front-view { opacity: 0; }
+#hilux:checked ~ .showroom-grid .hilux.side-view  { opacity: 0; }
+#hilux:checked ~ .showroom-grid .hilux.rear-view  { opacity: 0; }
+
+#hilux:checked ~ #front:checked ~ .showroom-grid .hilux.front-view { opacity: 1; }
+#hilux:checked ~ #side:checked  ~ .showroom-grid .hilux.side-view  { opacity: 1; }
+#hilux:checked ~ #rear:checked  ~ .showroom-grid .hilux.rear-view  { opacity: 1; }
+
+/* Hilux angle override using adjacent combinator at body level */
+
+/* ── SVG cars use CSS variable for color ── */
+.car-svg { transition: all .35s ease; }
+
+/* ── QUOTE PANEL ── */
+.quote-panel {
+  grid-area: quote;
+  background: #101338;
+  border-radius: 10px;
+  padding: 16px;
+}
+.quote-panel h2 {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #8892b0;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.quote-model-name { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 2px; }
+.quote-model-sub  { font-size: 10px; color: #8892b0; margin-bottom: 14px; }
+
+.quote-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.quote-service {
+  font-size: 11px;
+  color: #ccd6f6;
+  background: #1a1f4a;
+  padding: 5px 8px;
+  border-radius: 5px;
+  flex: 1;
+  margin-right: 8px;
+}
+.quote-price {
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.quote-divider {
+  border: none;
+  border-top: 1px solid #232855;
+  margin: 12px 0;
+}
+
+.quote-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.quote-total-label { font-size: 12px; font-weight: 700; color: #8892b0; letter-spacing: 1px; }
+.quote-total-price { font-size: 18px; font-weight: 700; color: #fff; }
+
+.btn-generate {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: #cc2233;
+  color: #fff;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-align: center;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  transition: background .2s;
+}
+.btn-generate:hover { background: #e0334a; }
+
+/* Show/hide quotes */
+.corolla-quote, .hilux-quote { display: none; }
+#corolla:checked ~ .showroom-grid .corolla-quote { display: block; }
+#hilux:checked   ~ .showroom-grid .hilux-quote   { display: block; }
+
+/* ── PALETTE ── */
+.palette {
+  grid-area: palette;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  background: #101338;
+  padding: 14px 20px;
+  border-radius: 10px;
+}
+
+.palette-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #8892b0;
+  margin-right: 8px;
+}
+
+.paint-swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  opacity: 0;
+  animation: floatIn .4s ease forwards;
+}
+.swatch-color {
+  width: 58px;
+  height: 52px;
+  border-radius: 8px;
+  border: 3px solid transparent;
+  transition: border-color .2s, transform .2s;
+  position: relative;
+}
+.swatch-color:hover { transform: scale(1.07); }
+
+.swatch-name {
+  font-size: 10px;
+  color: #8892b0;
+  margin-top: 4px;
+  text-align: center;
+}
+
+/* Active swatch ring */
+#rojo:checked   ~ .showroom-grid label[for="rojo"]   .swatch-color,
+#blanco:checked ~ .showroom-grid label[for="blanco"] .swatch-color,
+#negro:checked  ~ .showroom-grid label[for="negro"]  .swatch-color,
+#azul:checked   ~ .showroom-grid label[for="azul"]   .swatch-color,
+#plata:checked  ~ .showroom-grid label[for="plata"]  .swatch-color,
+#verde:checked  ~ .showroom-grid label[for="verde"]  .swatch-color,
+#naranja:checked ~ .showroom-grid label[for="naranja"] .swatch-color,
+#gris:checked   ~ .showroom-grid label[for="gris"]   .swatch-color,
+#perla:checked  ~ .showroom-grid label[for="perla"]  .swatch-color {
+  border-color: #cc2233;
+  transform: scale(1.1);
+}
+
+/* Active swatch checkmark */
+#rojo:checked   ~ .showroom-grid label[for="rojo"]   .swatch-color::after,
+#blanco:checked ~ .showroom-grid label[for="blanco"] .swatch-color::after,
+#negro:checked  ~ .showroom-grid label[for="negro"]  .swatch-color::after,
+#azul:checked   ~ .showroom-grid label[for="azul"]   .swatch-color::after,
+#plata:checked  ~ .showroom-grid label[for="plata"]  .swatch-color::after,
+#verde:checked  ~ .showroom-grid label[for="verde"]  .swatch-color::after,
+#naranja:checked ~ .showroom-grid label[for="naranja"] .swatch-color::after,
+#gris:checked   ~ .showroom-grid label[for="gris"]   .swatch-color::after,
+#perla:checked  ~ .showroom-grid label[for="perla"]  .swatch-color::after {
+  content: "✓";
+  position: absolute;
+  bottom: 4px;
+  right: 6px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.9);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+}
+
+.sc-rojo    { background: #CC2233; }
+.sc-blanco  { background: #F0F0F0; }
+.sc-negro   { background: #111111; }
+.sc-azul    { background: #1A4A8A; }
+.sc-plata   { background: #A8A8B0; }
+.sc-verde   { background: #1A6A2A; }
+.sc-naranja { background: #CC5500; }
+.sc-gris    { background: #6B6B6B; }
+.sc-perla   { background: #EDE8D8; }
+
+.paint-swatch:nth-child(2) { animation-delay: .0s; }
+.paint-swatch:nth-child(3) { animation-delay: .1s; }
+.paint-swatch:nth-child(4) { animation-delay: .2s; }
+.paint-swatch:nth-child(5) { animation-delay: .3s; }
+.paint-swatch:nth-child(6) { animation-delay: .4s; }
+.paint-swatch:nth-child(7) { animation-delay: .5s; }
+.paint-swatch:nth-child(8) { animation-delay: .6s; }
+.paint-swatch:nth-child(9) { animation-delay: .7s; }
+.paint-swatch:nth-child(10){ animation-delay: .8s; }
+
+@keyframes floatIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── FOOTER ── */
+footer {
+  grid-area: footer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4px;
+  font-size: 10px;
+  color: #4a5580;
+}
+
+/* ════════════════════════════
+   SVG CAR DRAWINGS
+   ════════════════════════════ */
+
+/* The fill of body panels uses currentColor driven by CSS var */
+.panel-main { fill: var(--car-color); transition: fill .35s ease; }
+.panel-dark  { fill: color-mix(in srgb, var(--car-color) 60%, #000 40%); transition: fill .35s ease; }
+.panel-light { fill: color-mix(in srgb, var(--car-color) 80%, #fff 20%); transition: fill .35s ease; }
+.glass       { fill: #1a2a5a; opacity: .85; }
+.tire        { fill: #1a1a1a; }
+.rim         { fill: #8a8a9a; }
+.light-front { fill: #ffe066; }
+.light-rear  { fill: #cc2233; opacity: .9; }
+.chrome      { fill: #c8c8d8; }
+.shadow      { fill: rgba(0,0,0,.25); }
+.logo-circle { fill: #c8c8d8; }
+</style>
+</head>
+<body>
+
+<!-- MODEL RADIOS -->
+<input type="radio" name="model" id="corolla" checked>
+<input type="radio" name="model" id="hilux">
+<!-- ANGLE RADIOS -->
+<input type="radio" name="angle" id="front" checked>
+<input type="radio" name="angle" id="side">
+<input type="radio" name="angle" id="rear">
+<!-- COLOR RADIOS -->
+<input type="radio" name="color" id="rojo">
+<input type="radio" name="color" id="blanco">
+<input type="radio" name="color" id="negro">
+<input type="radio" name="color" id="azul">
+<input type="radio" name="color" id="plata" checked>
+<input type="radio" name="color" id="verde">
+<input type="radio" name="color" id="naranja">
+<input type="radio" name="color" id="gris">
+<input type="radio" name="color" id="perla">
+
+<div class="showroom-grid">
+
+  <!-- HEADER -->
+  <header>
+    <h1>TALLER AUTO STYLE — COTIZADOR INTERACTIVO · <span>ISW-521</span></h1>
+  </header>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <section>
+      <h3>MARCA</h3>
+      <label for="corolla" class="btn">
+        <strong>TOYOTA COROLLA GR</strong>
+        <small>Sedán · 2024</small>
+      </label>
+      <label for="hilux" class="btn">
+        <strong>TOYOTA HILUX 4x4</strong>
+        <small>Pickup · 2024</small>
+      </label>
+    </section>
+    <section>
+      <h3>ÁNGULO</h3>
+      <label for="front" class="angle-btn"><strong>FRENTE (activo)</strong></label>
+      <label for="side"  class="angle-btn"><strong>PERFIL</strong></label>
+      <label for="rear"  class="angle-btn"><strong>ATRÁS</strong></label>
+    </section>
+  </aside>
+
+  <!-- VEHICLE AREA -->
+  <main class="vehicle-area">
+    <h2>ÁREA PRINCIPAL · CSS GRID</h2>
+    <p class="vehicle-hint">var(--car-color) · input:checked · transition: all 0.3s ease</p>
+
+    <div class="vehicle-display">
+
+      <!-- COROLLA FRONT -->
+      <div class="vehicle corolla front-view">
+        <svg class="car-svg" viewBox="0 0 420 200" width="420" height="200" xmlns="http://www.w3.org/2000/svg">
+          <!-- shadow -->
+          <ellipse cx="210" cy="188" rx="155" ry="10" class="shadow"/>
+          <!-- body lower -->
+          <rect x="55" y="118" width="310" height="52" rx="8" class="panel-main"/>
+          <!-- body upper (cabin) -->
+          <path d="M120 118 Q130 60 210 52 Q290 60 300 118 Z" class="panel-main"/>
+          <!-- cabin glass -->
+          <path d="M133 116 Q142 72 210 64 Q278 72 287 116 Z" class="glass"/>
+          <!-- hood highlight -->
+          <path d="M90 118 L120 118 Q130 60 210 52 Q290 60 300 118 L330 118 Q300 95 210 90 Q120 95 90 118Z" class="panel-light" opacity=".3"/>
+          <!-- left headlight -->
+          <rect x="62" y="124" width="52" height="22" rx="8" fill="#ffe066"/>
+          <rect x="64" y="126" width="48" height="18" rx="6" fill="#fff3a0" opacity=".7"/>
+          <!-- right headlight -->
+          <rect x="306" y="124" width="52" height="22" rx="8" fill="#ffe066"/>
+          <rect x="308" y="126" width="48" height="18" rx="6" fill="#fff3a0" opacity=".7"/>
+          <!-- front bumper -->
+          <rect x="68" y="148" width="284" height="16" rx="5" class="panel-dark"/>
+          <!-- grille -->
+          <rect x="155" y="150" width="110" height="12" rx="4" fill="#111" opacity=".7"/>
+          <line x1="165" y1="150" x2="165" y2="162" stroke="#333" stroke-width="1"/>
+          <line x1="180" y1="150" x2="180" y2="162" stroke="#333" stroke-width="1"/>
+          <line x1="195" y1="150" x2="195" y2="162" stroke="#333" stroke-width="1"/>
+          <line x1="210" y1="150" x2="210" y2="162" stroke="#333" stroke-width="1"/>
+          <line x1="225" y1="150" x2="225" y2="162" stroke="#333" stroke-width="1"/>
+          <line x1="240" y1="150" x2="240" y2="162" stroke="#333" stroke-width="1"/>
+          <line x1="255" y1="150" x2="255" y2="162" stroke="#333" stroke-width="1"/>
+          <!-- Toyota logo -->
+          <ellipse cx="210" cy="143" rx="14" ry="10" class="chrome"/>
+          <ellipse cx="210" cy="143" rx="10" ry="7" fill="none" stroke="#888" stroke-width="1.5"/>
+          <ellipse cx="210" cy="143" rx="14" ry="4" fill="none" stroke="#888" stroke-width="1.5"/>
+          <line x1="210" y1="133" x2="210" y2="140" stroke="#888" stroke-width="1.5"/>
+          <!-- left wheel -->
+          <ellipse cx="103" cy="172" rx="28" ry="18" class="tire"/>
+          <ellipse cx="103" cy="172" rx="18" ry="12" class="rim"/>
+          <ellipse cx="103" cy="172" rx="8"  ry="5"  fill="#555"/>
+          <!-- right wheel -->
+          <ellipse cx="317" cy="172" rx="28" ry="18" class="tire"/>
+          <ellipse cx="317" cy="172" rx="18" ry="12" class="rim"/>
+          <ellipse cx="317" cy="172" rx="8"  ry="5"  fill="#555"/>
+        </svg>
+      </div>
+
+      <!-- COROLLA SIDE -->
+      <div class="vehicle corolla side-view">
+        <svg class="car-svg" viewBox="0 0 500 200" width="500" height="200" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="250" cy="192" rx="200" ry="8" class="shadow"/>
+          <!-- body -->
+          <path d="M40 150 L40 130 Q42 105 80 90 L160 72 Q200 55 270 54 Q340 54 390 75 L450 100 L460 150 Z" class="panel-main"/>
+          <!-- roof highlight -->
+          <path d="M85 90 L165 72 Q202 57 268 56 Q336 56 386 76 L420 92 Q380 80 270 78 Q180 78 85 90Z" class="panel-light" opacity=".25"/>
+          <!-- windows -->
+          <path d="M170 88 L165 140 L260 140 L260 80 Z" class="glass"/>
+          <path d="M265 80 L265 140 L360 140 L380 88 Q360 76 330 72 Q295 68 265 80Z" class="glass"/>
+          <path d="M385 90 L365 140 L400 140 L415 102 Z" class="glass" opacity=".5"/>
+          <!-- window frames -->
+          <line x1="265" y1="80" x2="265" y2="140" stroke="#0a1030" stroke-width="2"/>
+          <line x1="365" y1="90" x2="365" y2="140" stroke="#0a1030" stroke-width="2"/>
+          <!-- door lines -->
+          <path d="M165 95 L165 150" stroke="#0a0a20" stroke-width="1.5" fill="none"/>
+          <path d="M366 95 L366 150" stroke="#0a0a20" stroke-width="1.5" fill="none"/>
+          <!-- rocker panel -->
+          <rect x="80" y="148" width="370" height="12" rx="4" class="panel-dark"/>
+          <!-- front bumper -->
+          <path d="M40 130 Q30 145 28 158 L55 158 L55 150 L40 150Z" class="panel-dark"/>
+          <!-- rear bumper -->
+          <path d="M460 150 L462 158 L490 158 Q488 145 478 130Z" class="panel-dark"/>
+          <!-- headlight -->
+          <path d="M42 118 Q46 110 62 108 L78 108 L78 130 L42 130 Z" fill="#ffe066"/>
+          <!-- tail light -->
+          <path d="M444 108 L460 110 Q466 118 462 130 L444 130 Z" class="light-rear"/>
+          <!-- door handles -->
+          <rect x="218" y="122" width="24" height="5" rx="2" fill="#c0c0cc"/>
+          <rect x="318" y="122" width="24" height="5" rx="2" fill="#c0c0cc"/>
+          <!-- wheels -->
+          <circle cx="118" cy="168" r="28" class="tire"/>
+          <circle cx="118" cy="168" r="19" class="rim"/>
+          <circle cx="118" cy="168" r="8"  fill="#555"/>
+          <circle cx="382" cy="168" r="28" class="tire"/>
+          <circle cx="382" cy="168" r="19" class="rim"/>
+          <circle cx="382" cy="168" r="8"  fill="#555"/>
+          <!-- wheel arch -->
+          <path d="M90 150 Q118 138 146 150" fill="none" stroke="#0a0a20" stroke-width="3"/>
+          <path d="M354 150 Q382 138 410 150" fill="none" stroke="#0a0a20" stroke-width="3"/>
+        </svg>
+      </div>
+
+      <!-- COROLLA REAR -->
+      <div class="vehicle corolla rear-view">
+        <svg class="car-svg" viewBox="0 0 420 200" width="420" height="200" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="210" cy="188" rx="155" ry="10" class="shadow"/>
+          <!-- body lower -->
+          <rect x="55" y="118" width="310" height="52" rx="8" class="panel-main"/>
+          <!-- body upper -->
+          <path d="M120 118 Q130 60 210 52 Q290 60 300 118 Z" class="panel-main"/>
+          <!-- rear glass -->
+          <path d="M138 116 Q148 76 210 68 Q272 76 282 116 Z" class="glass"/>
+          <!-- left tail light -->
+          <rect x="60" y="124" width="55" height="22" rx="7" class="light-rear"/>
+          <rect x="62" y="126" width="24" height="18" rx="4" fill="#ff8888" opacity=".6"/>
+          <!-- right tail light -->
+          <rect x="305" y="124" width="55" height="22" rx="7" class="light-rear"/>
+          <rect x="334" y="126" width="24" height="18" rx="4" fill="#ff8888" opacity=".6"/>
+          <!-- trunk line -->
+          <path d="M115 118 L305 118" stroke="#0a0a20" stroke-width="1.5" fill="none"/>
+          <!-- rear bumper -->
+          <rect x="68" y="148" width="284" height="16" rx="5" class="panel-dark"/>
+          <!-- license plate -->
+          <rect x="173" y="151" width="74" height="12" rx="3" fill="#e8e8f0"/>
+          <text x="210" y="160" text-anchor="middle" font-size="7" fill="#111" font-family="Arial" font-weight="bold">ABC 123</text>
+          <!-- Toyota logo -->
+          <ellipse cx="210" cy="138" rx="14" ry="10" class="chrome"/>
+          <ellipse cx="210" cy="138" rx="10" ry="7" fill="none" stroke="#888" stroke-width="1.5"/>
+          <ellipse cx="210" cy="138" rx="14" ry="4" fill="none" stroke="#888" stroke-width="1.5"/>
+          <line x1="210" y1="128" x2="210" y2="135" stroke="#888" stroke-width="1.5"/>
+          <!-- wheels -->
+          <ellipse cx="103" cy="172" rx="28" ry="18" class="tire"/>
+          <ellipse cx="103" cy="172" rx="18" ry="12" class="rim"/>
+          <ellipse cx="103" cy="172" rx="8"  ry="5"  fill="#555"/>
+          <ellipse cx="317" cy="172" rx="28" ry="18" class="tire"/>
+          <ellipse cx="317" cy="172" rx="18" ry="12" class="rim"/>
+          <ellipse cx="317" cy="172" rx="8"  ry="5"  fill="#555"/>
+        </svg>
+      </div>
+
+      <!-- HILUX FRONT -->
+      <div class="vehicle hilux front-view">
+        <svg class="car-svg" viewBox="0 0 420 210" width="420" height="210" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="210" cy="200" rx="165" ry="10" class="shadow"/>
+          <!-- body main -->
+          <rect x="42" y="105" width="336" height="72" rx="6" class="panel-main"/>
+          <!-- cab top -->
+          <path d="M105 105 Q110 60 210 52 Q310 60 315 105 Z" class="panel-main"/>
+          <!-- cab glass -->
+          <path d="M120 103 Q128 68 210 62 Q292 68 300 103 Z" class="glass"/>
+          <!-- headlights wide/square - pickup style -->
+          <rect x="48" y="116" width="62" height="28" rx="5" fill="#ffe066"/>
+          <rect x="50" y="118" width="58" height="24" rx="4" fill="#fff3a0" opacity=".7"/>
+          <rect x="310" y="116" width="62" height="28" rx="5" fill="#ffe066"/>
+          <rect x="312" y="118" width="58" height="24" rx="4" fill="#fff3a0" opacity=".7"/>
+          <!-- front grille area -->
+          <rect x="112" y="148" width="196" height="22" rx="4" class="panel-dark"/>
+          <!-- grille bars -->
+          <rect x="114" y="150" width="192" height="4" rx="2" fill="#333"/>
+          <rect x="114" y="158" width="192" height="4" rx="2" fill="#333"/>
+          <rect x="114" y="166" width="192" height="4" rx="2" fill="#333"/>
+          <!-- Toyota logo -->
+          <ellipse cx="210" cy="143" rx="15" ry="10" class="chrome"/>
+          <ellipse cx="210" cy="143" rx="11" ry="7" fill="none" stroke="#888" stroke-width="1.5"/>
+          <ellipse cx="210" cy="143" rx="15" ry="4" fill="none" stroke="#888" stroke-width="1.5"/>
+          <line x1="210" y1="133" x2="210" y2="140" stroke="#888" stroke-width="1.5"/>
+          <!-- bumper -->
+          <rect x="58" y="172" width="304" height="14" rx="4" class="chrome"/>
+          <!-- wheels bigger for truck -->
+          <ellipse cx="100" cy="183" rx="32" ry="20" class="tire"/>
+          <ellipse cx="100" cy="183" rx="22" ry="14" class="rim"/>
+          <ellipse cx="100" cy="183" rx="10" ry="6"  fill="#555"/>
+          <ellipse cx="320" cy="183" rx="32" ry="20" class="tire"/>
+          <ellipse cx="320" cy="183" rx="22" ry="14" class="rim"/>
+          <ellipse cx="320" cy="183" rx="10" ry="6"  fill="#555"/>
+        </svg>
+      </div>
+
+      <!-- HILUX SIDE -->
+      <div class="vehicle hilux side-view">
+        <svg class="car-svg" viewBox="0 0 540 210" width="540" height="210" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="270" cy="200" rx="220" ry="9" class="shadow"/>
+          <!-- truck bed -->
+          <rect x="310" y="95" width="180" height="85" rx="5" class="panel-main"/>
+          <rect x="310" y="95" width="180" height="10" rx="4" class="panel-dark"/>
+          <!-- cab body -->
+          <path d="M42 170 L42 140 Q44 105 80 88 L175 70 Q210 60 270 60 L310 65 L310 170 Z" class="panel-main"/>
+          <!-- cab roof highlight -->
+          <path d="M84 88 L178 70 Q210 62 270 62 L308 65 L285 62 Q230 58 175 70 L84 88Z" class="panel-light" opacity=".2"/>
+          <!-- cab windows -->
+          <path d="M175 88 L170 155 L260 155 L260 72 Z" class="glass"/>
+          <path d="M265 70 L265 155 L308 155 L308 68 Z" class="glass"/>
+          <line x1="265" y1="70" x2="265" y2="155" stroke="#0a1030" stroke-width="2"/>
+          <!-- door lines cab -->
+          <path d="M170 95 L170 170" stroke="#0a0a20" stroke-width="1.5" fill="none"/>
+          <!-- rocker -->
+          <rect x="58" y="166" width="432" height="12" rx="4" class="panel-dark"/>
+          <!-- front bumper -->
+          <rect x="30" y="150" width="24" height="28" rx="4" class="chrome"/>
+          <!-- headlight -->
+          <rect x="36" y="120" width="22" height="20" rx="4" fill="#ffe066"/>
+          <!-- tail light -->
+          <rect x="486" y="120" width="18" height="20" rx="4" class="light-rear"/>
+          <!-- wheels -->
+          <circle cx="118" cy="178" r="30" class="tire"/>
+          <circle cx="118" cy="178" r="21" class="rim"/>
+          <circle cx="118" cy="178" r="9"  fill="#555"/>
+          <circle cx="418" cy="178" r="30" class="tire"/>
+          <circle cx="418" cy="178" r="21" class="rim"/>
+          <circle cx="418" cy="178" r="9"  fill="#555"/>
+          <!-- wheel arches -->
+          <path d="M88 166 Q118 152 148 166" fill="none" stroke="#0a0a20" stroke-width="3"/>
+          <path d="M388 166 Q418 152 448 166" fill="none" stroke="#0a0a20" stroke-width="3"/>
+        </svg>
+      </div>
+
+      <!-- HILUX REAR -->
+      <div class="vehicle hilux rear-view">
+        <svg class="car-svg" viewBox="0 0 420 210" width="420" height="210" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="210" cy="200" rx="165" ry="10" class="shadow"/>
+          <!-- bed tailgate -->
+          <rect x="52" y="100" width="316" height="80" rx="5" class="panel-main"/>
+          <!-- tailgate highlight -->
+          <rect x="60" y="108" width="300" height="64" rx="4" class="panel-light" opacity=".15"/>
+          <!-- cab top visible -->
+          <path d="M108 100 Q112 65 210 58 Q308 65 312 100 Z" class="panel-main"/>
+          <path d="M122 98 Q128 72 210 66 Q292 72 298 98 Z" class="glass"/>
+          <!-- tail lights -->
+          <rect x="56" y="108" width="58" height="35" rx="5" class="light-rear"/>
+          <rect x="58" y="110" width="26" height="30" rx="3" fill="#ff9999" opacity=".5"/>
+          <rect x="306" y="108" width="58" height="35" rx="5" class="light-rear"/>
+          <rect x="336" y="110" width="26" height="30" rx="3" fill="#ff9999" opacity=".5"/>
+          <!-- tailgate handle -->
+          <rect x="175" y="142" width="70" height="8" rx="3" class="chrome"/>
+          <!-- license plate -->
+          <rect x="173" y="152" width="74" height="12" rx="3" fill="#e8e8f0"/>
+          <text x="210" y="161" text-anchor="middle" font-size="7" fill="#111" font-family="Arial" font-weight="bold">ABC 123</text>
+          <!-- bumper -->
+          <rect x="62" y="174" width="296" height="12" rx="4" class="chrome"/>
+          <!-- wheels -->
+          <ellipse cx="102" cy="186" rx="32" ry="20" class="tire"/>
+          <ellipse cx="102" cy="186" rx="22" ry="14" class="rim"/>
+          <ellipse cx="102" cy="186" rx="10" ry="6"  fill="#555"/>
+          <ellipse cx="318" cy="186" rx="32" ry="20" class="tire"/>
+          <ellipse cx="318" cy="186" rx="22" ry="14" class="rim"/>
+          <ellipse cx="318" cy="186" rx="10" ry="6"  fill="#555"/>
+        </svg>
+      </div>
+
+    </div><!-- /vehicle-display -->
+  </main>
+
+  <!-- QUOTE PANEL -->
+  <aside class="quote-panel">
+    <h2>COTIZACIÓN</h2>
+
+    <div class="corolla-quote">
+      <p class="quote-model-name">Toyota Corolla GR</p>
+      <p class="quote-model-sub">Sedán 2024 · Rojo</p>
+      <div class="quote-row">
+        <span class="quote-service">Enderezado capó</span>
+        <span class="quote-price">₡ 85.000</span>
+      </div>
+      <div class="quote-row">
+        <span class="quote-service">Pintura completa</span>
+        <span class="quote-price">₡ 320.000</span>
+      </div>
+      <div class="quote-row">
+        <span class="quote-service">Masilla y lijado</span>
+        <span class="quote-price">₡ 45.000</span>
+      </div>
+      <hr class="quote-divider">
+      <div class="quote-total-row">
+        <span class="quote-total-label">TOTAL</span>
+        <span class="quote-total-price">₡ 450.000</span>
+      </div>
+      <button class="btn-generate">GENERAR COTIZACIÓN</button>
+    </div>
+
+    <div class="hilux-quote">
+      <p class="quote-model-name">Toyota Hilux 4x4</p>
+      <p class="quote-model-sub">Pickup 2024 · Plata</p>
+      <div class="quote-row">
+        <span class="quote-service">Enderezado compuerta</span>
+        <span class="quote-price">₡ 95.000</span>
+      </div>
+      <div class="quote-row">
+        <span class="quote-service">Pintura completa</span>
+        <span class="quote-price">₡ 480.000</span>
+      </div>
+      <div class="quote-row">
+        <span class="quote-service">Corrección lateral</span>
+        <span class="quote-price">₡ 45.000</span>
+      </div>
+      <hr class="quote-divider">
+      <div class="quote-total-row">
+        <span class="quote-total-label">TOTAL</span>
+        <span class="quote-total-price">₡ 620.000</span>
+      </div>
+      <button class="btn-generate">GENERAR COTIZACIÓN</button>
+    </div>
+  </aside>
+
+  <!-- PALETTE -->
+  <section class="palette">
+    <span class="palette-label">PALETA DE PINTURA · FLEXBOX · justify-content: center · flex-wrap: wrap</span>
+    <label for="rojo"    class="paint-swatch"><div class="swatch-color sc-rojo"></div>   <span class="swatch-name">Rojo</span></label>
+    <label for="blanco"  class="paint-swatch"><div class="swatch-color sc-blanco"></div> <span class="swatch-name">Blanco</span></label>
+    <label for="negro"   class="paint-swatch"><div class="swatch-color sc-negro"></div>  <span class="swatch-name">Negro</span></label>
+    <label for="azul"    class="paint-swatch"><div class="swatch-color sc-azul"></div>   <span class="swatch-name">Azul</span></label>
+    <label for="plata"   class="paint-swatch"><div class="swatch-color sc-plata"></div>  <span class="swatch-name">Plata</span></label>
+    <label for="verde"   class="paint-swatch"><div class="swatch-color sc-verde"></div>  <span class="swatch-name">Verde</span></label>
+    <label for="gris"    class="paint-swatch"><div class="swatch-color sc-gris"></div>   <span class="swatch-name">Gris</span></label>
+    <label for="naranja" class="paint-swatch"><div class="swatch-color sc-naranja"></div><span class="swatch-name">Naranja</span></label>
+    <label for="perla"   class="paint-swatch"><div class="swatch-color sc-perla"></div>  <span class="swatch-name">Perla</span></label>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>ISW-521 · Programación en Ambiente Web I · UTN Sede San Carlos · Prof. Bryan Chaves Salas</span>
+    <span>Sin JS · Solo CSS Puro</span>
+  </footer>
+
+</div><!-- /showroom-grid -->
+
+<!-- Hilux angle fix: sibling combinator can't go backwards, so we use a small trick -->
+<style>
+/* Hilux + angle combinations require radios in specific order.
+   Since #hilux and #front/#side/#rear are siblings before .showroom-grid,
+   we use double-sibling chains: */
+
+/* Default: show corolla front when both model=corolla & angle=front */
+#corolla:checked ~ #front:checked ~ .showroom-grid .corolla.front-view { opacity: 1; }
+#corolla:checked ~ #side:checked  ~ .showroom-grid .corolla.side-view  { opacity: 1; }
+#corolla:checked ~ #rear:checked  ~ .showroom-grid .corolla.rear-view  { opacity: 1; }
+
+/* Hilux combinations */
+#hilux:checked ~ #front:checked ~ .showroom-grid .hilux.front-view { opacity: 1; }
+#hilux:checked ~ #side:checked  ~ .showroom-grid .hilux.side-view  { opacity: 1; }
+#hilux:checked ~ #rear:checked  ~ .showroom-grid .hilux.rear-view  { opacity: 1; }
+
+/* Make sure corolla is hidden when hilux is selected */
+#hilux:checked ~ #front:checked ~ .showroom-grid .corolla.front-view,
+#hilux:checked ~ #side:checked  ~ .showroom-grid .corolla.side-view,
+#hilux:checked ~ #rear:checked  ~ .showroom-grid .corolla.rear-view { opacity: 0 !important; }
+
+/* Override the generic single-sibling rules */
+#hilux:checked ~ .showroom-grid .corolla { opacity: 0 !important; }
+</style>
+
+</body>
+</html>
